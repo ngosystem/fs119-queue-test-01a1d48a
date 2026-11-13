@@ -1,0 +1,19 @@
+name: isolated-admission-test
+on:
+  pull_request:
+  merge_group:
+    types: [checks_requested]
+permissions:
+  contents: read
+jobs:
+  admission-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Controlled outcome
+        env:
+          TEST_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          if [ "$TEST_BRANCH" = "negative-failure" ]; then
+            exit 1
+          fi
+          exit 0
