@@ -9,6 +9,9 @@ jobs:
   admission-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Hold merge group for inspection
+        if: github.event_name == 'merge_group'
+        run: sleep 90
       - name: Controlled outcome
         env:
           TEST_BRANCH: ${{ github.event.pull_request.head.ref }}
